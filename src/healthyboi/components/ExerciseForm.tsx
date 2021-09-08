@@ -1,20 +1,30 @@
-import React from "react";
-import { View } from "react-native";
+import React, { useState } from "react";
+import { TouchableOpacity, View, Image } from "react-native";
 import {exerciseEntry} from '../types'
+import { useHistory } from "react-router-dom";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import useAPI from '../hooks/apiHook';
 // import {BASE_URL} from 'react-native-dotenv';
 import axios from "axios";
-const ExerciseForm = () => {
+import Navigation from "../navigation";
+const ExerciseForm = (props, navigation) => {
     const {register, handleSubmit, watch, formState:{errors}} = useForm<exerciseEntry>();
-    // console.log('item-card data ', props)
+    const {submitted, setSubmitted} = props.data;
+    const [showMe, setShowMe] = useState<boolean>(false);
+    const history = useHistory();
     const onSubmit: SubmitHandler<exerciseEntry> = data =>{
         // useAPI(BASE_URL, 2, ) - TODO: utilize api hook
         axios.post('http://localhost:7000/api', data).then(res =>{console.log(`post achieved`)})
         .catch(err => console.log(`error in post function for exercise form: ${err}`));
+        setShowMe(!showMe);
+        setSubmitted(!submitted);
+        navigation.navigate('Root');
     };
+
+    if(showMe == true){
     return (
-      <View>
+        
+      <View>     
         <form onSubmit = {handleSubmit(onSubmit)}>
             <input defaultValue="Enter an Exercise" {...register("name")}/>
                 <br/>
@@ -31,8 +41,18 @@ const ExerciseForm = () => {
             </select>
             {errors.repRange && <span>This field is required</span>}
             <input type="submit"/>
-        </form>
+               
+       </form>        
       </View>
     );
+}else{
+    return (
+        <View>
+            <TouchableOpacity activeOpacity = {.5} onPress = {()=>setShowMe(!showMe)}>
+                <Image source = {require('../assets/images/icons8-plus-96.png')} style= {{width:200, height: 200}}/>
+            </TouchableOpacity> 
+        </View>
+    )
+}
   };
   export default ExerciseForm;
