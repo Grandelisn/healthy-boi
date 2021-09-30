@@ -27,8 +27,6 @@ router.delete('/:_id',  async (req: Request, res: Response) => {
       console.log(error); // Failure
       return res.status(500).send(error);
   });
-  
-  
 })
 router.delete('/del/yougottameanit',  async (req: Request, res: Response) => {
 
