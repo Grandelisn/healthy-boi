@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express'
 import { Exercise } from '../models/exerciseSchema'
 
 const router = express.Router()
-
 router.get('/', async (req: Request, res: Response) => {
   const exercise = await Exercise.find({})
   return res.status(200).send(exercise)
@@ -15,11 +14,27 @@ router.post('/', async (req: Request, res: Response) => {
   await exercise.save()
   return res.status(201).send(exercise)
 })
-router.delete('/yougottameanit',  async (req: Request, res: Response) => {
+router.delete('/:_id',  async (req: Request, res: Response) => {
+  console.log('delete option: req - ', req.params);
+  const id: any = req.params;
+  console.log('delete option: id - ', id);
+  Exercise.deleteOne(id)
+    .then(function(){
+      console.log("Data deleted"); // Success
+      return res.status(204).send('aye it was deleted');
+  })
+  .catch(function(error){
+      console.log(error); // Failure
+      return res.status(500).send(error);
+  });
+  
+  
+})
+router.delete('/del/yougottameanit',  async (req: Request, res: Response) => {
 
     Exercise.deleteMany().then(function(){
         console.log("Data deleted"); // Success
-        return res.status(204);
+        return res.status(204).send();
     }).catch(function(error){
         console.log(error); // Failure
         return res.status(500).send(error);

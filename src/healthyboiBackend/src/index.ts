@@ -24,7 +24,7 @@ const app = express();
 /**
  *  App Configuration
  */
-const allowedOrigins = ['http://localhost:19006'];
+const allowedOrigins = ['http://localhost:3000'];
 const options: cors.CorsOptions = {
     origin: allowedOrigins
 }
@@ -33,7 +33,7 @@ app.use(cors(options));
 app.use(express.json());
 app.get('/', (req, res)=> {
     console.log('API online');
-    res.json('hey mothafucka');
+    res.json('hey buddy');
 })
 app.use('/api', exerciseRouter);
 /**

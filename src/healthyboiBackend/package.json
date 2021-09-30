@@ -2,7 +2,7 @@
     "name": "healthyboibackend",
     "version": "0.0.1",
     "description": "A boilerplate backend for project healthyboi",
-    "main": "index.js",
+    "main": "index.ts",
     "scripts": {
         "start": "node server.js",
         "dev": "ts-node-dev --respawn --pretty --transpile-only src/index.ts"
