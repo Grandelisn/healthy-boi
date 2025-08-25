@@ -6,11 +6,17 @@ type DatePickerProps = {
 	setStartDate: React.Dispatch<React.SetStateAction<Date>>;
 };
 export function DatePicker({ startDate, setStartDate }: DatePickerProps) {
+	sessionStorage.setItem('startDate', startDate.toISOString());
 	return (
 		<div>
 			<ReactDatePicker
 				selected={startDate}
-				onChange={(date) => setStartDate(date as Date)}
+				onChange={(date) => {
+					if (date) {
+						setStartDate(date as Date);
+						sessionStorage.setItem('startDate', date.toISOString());
+					}
+				}}
 			/>
 		</div>
 	);
